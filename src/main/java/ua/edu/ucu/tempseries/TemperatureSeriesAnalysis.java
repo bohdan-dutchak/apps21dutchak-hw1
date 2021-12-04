@@ -19,7 +19,7 @@ public class TemperatureSeriesAnalysis {
         if (validateData(temperatureSeries)) {
             this.size = temperatureSeries.length;
             this.capacity = this.size;
-            this.data = new double[size];
+            this.data = new double[this.size];
             for (int i = 0; i < this.size; i++)
                 this.data[i] = temperatureSeries[i];
         }
@@ -180,7 +180,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     private boolean validation(){
-        if(this.data == null)
+        if(this.data == null || this.size<1)
             return false;
         return true;
     }
