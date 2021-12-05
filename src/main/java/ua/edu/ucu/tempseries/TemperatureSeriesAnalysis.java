@@ -2,7 +2,8 @@ package ua.edu.ucu.tempseries;
 
 import java.util.InputMismatchException;
 
-import static java.lang.Math.*;
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
 
 public class TemperatureSeriesAnalysis {
     private double[] data = null;
