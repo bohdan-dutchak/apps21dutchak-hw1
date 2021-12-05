@@ -88,7 +88,7 @@ public class TemperatureSeriesAnalysis {
             if (abs(this.data[i]) < min) {
                 min = this.data[i];
             }
-            if (abs(min) == this.data[i]) {
+            if (Double.compare(abs(min), this.data[i]) == 0) {
                 min = abs(min);
             }
         }
@@ -105,10 +105,11 @@ public class TemperatureSeriesAnalysis {
             if (abs(this.data[i] - tempValue) < abs(min - tempValue)) {
                 min = this.data[i];
             }
-            if (abs(this.data[i] - tempValue) == abs(min - tempValue)) {
+            double a = abs(this.data[i] - tempValue);
+            double b = abs(min - tempValue);
+            if (Double.compare(a, b) == 0) {
                 min = Math.max(this.data[i], min);
             }
-
         }
         return min;
     }
