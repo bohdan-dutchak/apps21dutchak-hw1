@@ -20,44 +20,45 @@ public class TemperatureSeriesAnalysis {
             this.size = temperatureSeries.length;
             this.capacity = this.size;
             this.data = new double[this.size];
-            for (int i = 0; i < this.size; i++)
+            for (int i = 0; i < this.size; i++) {
                 this.data[i] = temperatureSeries[i];
-        }
-        else{
+            }
+        } else {
             throw new InputMismatchException("Input error!");
         }
     }
 
     public double average() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in average(). There is no data inputted");
+        if (!validation()) {
+            throw new IllegalArgumentException("Error in average()");
         }
         double sum = 0;
-        for (int i = 0; i<this.size; i++){
-            sum+=this.data[i];
+        for (int i = 0; i < this.size; i++) {
+            sum += this.data[i];
         }
-        return sum/this.size;
+        return sum / this.size;
     }
 
     public double deviation() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in deviation(). There is no data inputted");
+        if (!validation()) {
+            throw new IllegalArgumentException("Error in deviation()");
         }
         double deviationSum = 0;
         double mean = average();
-        for (int i = 1; i< this.size; i++){
-            deviationSum+=(this.data[i] - mean)*(this.data[i] - mean);
+        for (int i = 0; i < this.size; i++) {
+            deviationSum += (this.data[i] - mean) * (this.data[i] - mean);
         }
-        return sqrt(deviationSum/this.size);
+        return sqrt(deviationSum / this.size);
     }
 
     public double min() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in min(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in min(). There is no data inputted";
+            throw new IllegalArgumentException(error);
         }
         double min = this.data[0];
-        for (int i = 1; i<this.size; i++){
-            if (this.data[i]<min) {
+        for (int i = 1; i < this.size; i++) {
+            if (this.data[i] < min) {
                 min = this.data[i];
             }
         }
@@ -65,12 +66,13 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double max() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in max(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in max(). There is no data inputted";
+            throw new IllegalArgumentException(error);
         }
         double max = this.data[0];
-        for (int i = 0; i<this.size; i++){
-            if (this.data[i]>max) {
+        for (int i = 1; i < this.size; i++) {
+            if (this.data[i] > max) {
                 max = this.data[i];
             }
         }
@@ -78,15 +80,16 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToZero() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in findTempClosestToZero(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in findTempClosestToZero()";
+            throw new IllegalArgumentException(error);
         }
         double min = this.data[0];
-        for (int i = 1; i<this.size; i++){
-            if (abs(this.data[i])<min){
+        for (int i = 1; i < this.size; i++) {
+            if (abs(this.data[i]) < min) {
                 min = this.data[i];
             }
-            if (abs(min) == this.data[i]){
+            if (abs(min) == this.data[i]) {
                 min = abs(min);
             }
         }
@@ -94,32 +97,38 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToValue(double tempValue) {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in findTempClosestToValue(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in findTempClosestToValue()";
+            throw new IllegalArgumentException(error);
         }
         double min = this.data[0];
-        for (int i = 1; i<this.size; i++){
-            if(abs(this.data[i]-tempValue) < abs(min - tempValue)){
+        for (int i = 1; i < this.size; i++) {
+            if (abs(this.data[i] - tempValue) < abs(min - tempValue)) {
                 min = this.data[i];
             }
+            if (abs(this.data[i] - tempValue) == abs(min - tempValue)) {
+                min = Math.max(this.data[i], min);
+            }
+
         }
         return min;
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in findTempsLessThen(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in findTempsLessThen()";
+            throw new IllegalArgumentException(error);
         }
         int n = 0;
-        for (int i = 0; i < this.size; i++){
-            if(this.data[i]<tempValue){
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] < tempValue) {
                 n++;
             }
         }
         double[] result = new double[n];
         n = 0;
-        for (int i = 0; i < this.size; i++){
-            if(this.data[i]<tempValue){
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] < tempValue) {
                 result[n] = this.data[i];
                 n++;
             }
@@ -128,19 +137,20 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in findTempsGreaterThen(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in findTempsGreaterThen()";
+            throw new IllegalArgumentException(error);
         }
         int n = 0;
-        for (int i = 0; i < this.size; i++){
-            if(this.data[i]>tempValue){
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] > tempValue) {
                 n++;
             }
         }
         double[] result = new double[n];
         n = 0;
-        for (int i = 0; i < this.size; i++){
-            if(this.data[i]>tempValue){
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] > tempValue) {
                 result[n] = this.data[i];
                 n++;
             }
@@ -149,15 +159,17 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        if(!validation()){
-            throw new IllegalArgumentException("Error in TempSummaryStatistics(). There is no data inputted");
+        if (!validation()) {
+            String error = "Error in TempSummaryStatistics()";
+            throw new IllegalArgumentException(error);
         }
-        final TempSummaryStatistics result = new TempSummaryStatistics(average(),deviation(),min(), max());
-        return result;
+        double a = average(),b = deviation(),c = min(),d = max();
+        final TempSummaryStatistics RES = new TempSummaryStatistics(a,b,c,d);
+        return RES;
     }
 
     public int addTemps(double[] temps) {
-        if(validateData(temps)) {
+        if (validateData(temps)) {
             int n = temps.length;
 
             while (n + this.size > this.capacity) {
@@ -174,20 +186,21 @@ public class TemperatureSeriesAnalysis {
 
             return this.size;
         }
-        else{
+        else {
             throw new InputMismatchException("Invalid input");
         }
     }
 
-    private boolean validation(){
-        if(this.data == null || this.size<1)
+    private boolean validation() {
+        if (this.data == null || this.size < 1)
             return false;
         return true;
     }
 
-    private boolean validateData(double[] arr){
-        for (int i = 0; i<arr.length; i++){
-            if(arr[i]<-273){
+    private boolean validateData(double[] arr) {
+        final double MINTEMP = -273;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < MINTEMP) {
                 return false;
             }
         }
