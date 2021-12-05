@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.InputMismatchException;
+
 public class TemperatureSeriesAnalysisTest {
 
     @Test
@@ -276,7 +278,134 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(expResult, actualResult, 0.001);
     }
 
+    @Test
+    public void testFindTempsLessThen() {
+        double[] a = {-1, 0, 1, 2, 3, 4, 5, 6, 7};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        double[] expResult = {-1, 0, 1, 2, 3};
 
+        double[] actualResult = b.findTempsLessThen(4);
+
+        assertEquals(expResult.length, actualResult.length);
+        if (expResult.length == actualResult.length)
+            for (int i = 0; i < expResult.length; i++) {
+                assertEquals(expResult[i], actualResult[i], 0.0001);
+            }
+    }
+
+    @Test
+    public void testFindTempsLessThenEmptyResult() {
+        double[] a = {1, 2, 3, 4, 5, 6};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        double[] expResult = {};
+
+        double[] actualResult = b.findTempsLessThen(1);
+
+        assertEquals(expResult.length, actualResult.length);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindTempsLessThenEmpty() {
+        double[] a = {};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+
+        // expect exception here
+        b.findTempsLessThen(-10);
+    }
+
+    @Test
+    public void testFindTempsGreaterThen() {
+        double[] a = {-1, 0, 1, 2, 3, 4, 5, 6, 7};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        double[] expResult = {3, 4, 5, 6, 7};
+
+        double[] actualResult = b.findTempsGreaterThen(2);
+
+        assertEquals(expResult.length, actualResult.length);
+        if (expResult.length == actualResult.length)
+            for (int i = 0; i < expResult.length; i++) {
+                assertEquals(expResult[i], actualResult[i], 0.0001);
+            }
+    }
+
+    @Test
+    public void testFindTempsGreaterThenEmptyResult() {
+        double[] a = {1, 2, 3, 4, 5, 6};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        double[] expResult = {};
+
+        double[] actualResult = b.findTempsGreaterThen(6);
+
+        assertEquals(expResult.length, actualResult.length);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFindTempsGreaterThenEmpty() {
+        double[] a = {};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+
+        // expect exception here
+        b.findTempsGreaterThen(-10);
+    }
+
+    @Test
+    public void testSummaryStatistics() {
+        double[] a = {3.0, -5.0, 1.0, 5.0};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        TempSummaryStatistics expResult = new TempSummaryStatistics(1, 3.7416, -5, 5);
+
+        TempSummaryStatistics actualResult = b.summaryStatistics();
+
+        assertEquals(expResult.getDevTemp(), actualResult.getDevTemp(), 0.0001);
+        assertEquals(expResult.getAvgTemp(), actualResult.getAvgTemp(), 0.0001);
+        assertEquals(expResult.getMaxTemp(), actualResult.getMaxTemp(), 0.0001);
+        assertEquals(expResult.getMinTemp(), actualResult.getMinTemp(), 0.0001);
+    }
+
+    @Test
+    public void testSummaryStatisticsOne() {
+        double[] a = {69.0};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        TempSummaryStatistics expResult = new TempSummaryStatistics(69, 0, 69, 69);
+
+        TempSummaryStatistics actualResult = b.summaryStatistics();
+
+        assertEquals(expResult.getDevTemp(), actualResult.getDevTemp(), 0.0001);
+        assertEquals(expResult.getAvgTemp(), actualResult.getAvgTemp(), 0.0001);
+        assertEquals(expResult.getMaxTemp(), actualResult.getMaxTemp(), 0.0001);
+        assertEquals(expResult.getMinTemp(), actualResult.getMinTemp(), 0.0001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSummaryStatisticsEmpty() {
+        double[] a = {};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        TempSummaryStatistics expResult = new TempSummaryStatistics(1, 3.7416, -5, 5);
+
+        TempSummaryStatistics actualResult = b.summaryStatistics();
+    }
+
+    @Test
+    public void testAddTemps() {
+        double[] a = {-1, 0, 1, 2, 3, 4, 5, 6, 7};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        int expResult = 12;
+
+        int actualResult = b.addTemps(new double[]{1, 2, 3});
+
+        assertEquals(expResult, actualResult);
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testAddTempsInvalidData() {
+        double[] a = {-1, 0, 1, 2, 3, 4, 5, 6, 7};
+        TemperatureSeriesAnalysis b = new TemperatureSeriesAnalysis(a);
+        int expResult = 18;
+
+        int actualResult = b.addTemps(new double[]{1, 2, -300});
+
+        assertEquals(expResult, actualResult);
+    }
 }
 
 

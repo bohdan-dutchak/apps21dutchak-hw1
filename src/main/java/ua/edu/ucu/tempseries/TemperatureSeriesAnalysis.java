@@ -2,8 +2,7 @@ package ua.edu.ucu.tempseries;
 
 import java.util.InputMismatchException;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 public class TemperatureSeriesAnalysis {
     private double[] data = null;
@@ -163,8 +162,8 @@ public class TemperatureSeriesAnalysis {
             String error = "Error in TempSummaryStatistics()";
             throw new IllegalArgumentException(error);
         }
-        double a = average(),b = deviation(),c = min(),d = max();
-        final TempSummaryStatistics RES = new TempSummaryStatistics(a,b,c,d);
+        double a = average(), b = deviation(), c = min(), d = max();
+        final TempSummaryStatistics RES = new TempSummaryStatistics(a, b, c, d);
         return RES;
     }
 
@@ -175,25 +174,27 @@ public class TemperatureSeriesAnalysis {
             while (n + this.size > this.capacity) {
                 this.capacity *= 2;
             }
+
             double[] newdata = new double[this.capacity];
             for (int i = 0; i < this.size; i++) {
                 newdata[i] = this.data[i];
             }
-            for (int i = this.size; i < n + this.size; i++) {
-                newdata[i] = this.data[i];
+            for (int i = 0; i < n; i++) {
+                newdata[i + this.size] = temps[i];
             }
             this.size += n;
+            this.data = newdata;
 
             return this.size;
-        }
-        else {
+        } else {
             throw new InputMismatchException("Invalid input");
         }
     }
 
     private boolean validation() {
-        if (this.data == null || this.size < 1)
+        if (this.data == null || this.size < 1) {
             return false;
+        }
         return true;
     }
 
